@@ -1,4 +1,6 @@
 *.env
 dotenv
 
+*.pem
+
 node_modules

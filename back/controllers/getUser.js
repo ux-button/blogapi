@@ -1,8 +1,8 @@
 const prisma = require("../config/prismaConfig");
 
-const getUser = async (userId) => {
+const getUser = async (id) => {
   const user = await prisma.user.findUnique({
-    where: { id: userId },
+    where: { id },
   });
   return user;
 };
