@@ -1,5 +1,5 @@
-const bcrypt = require("bcryptjs");
-const prisma = require("../config/prismaConfig");
+import bcrypt from "bcryptjs";
+import { prisma } from "../config/prismaConfig";
 
 // Create user
 const registerUser = async (username, password) => {
@@ -34,4 +34,4 @@ const registrationController = (req, res) => {
   });
 };
 
-module.exports = { registrationController };
+export { registrationController };

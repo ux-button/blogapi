@@ -1,9 +1,9 @@
-const express = require("express");
-const passport = require("passport");
+import express from "express";
+import passport from "passport";
 
 // Controllers
-const { registrationController } = require("../controllers/registration");
-const { loginController } = require("../controllers/login");
+import { registrationController } from "../controllers/registration";
+import { loginController } from "../controllers/login";
 
 const router = express.Router();
 
@@ -19,4 +19,4 @@ router.get(
   })
 );
 
-module.exports = router;
+export { router };

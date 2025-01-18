@@ -1,15 +1,19 @@
-const prisma = require("../config/prismaConfig");
-const passport = require("passport");
-const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt");
+import { prisma } from "./prismaConfig";
+import passport from "passport";
+import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 
 // Get public key from filesystem
 const publicKey = Bun.file("../keyPair/public.pem");
+console.log(publicKey);
 
 // JWT options
 const options = {
-  jwtFromRequiest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secterOrKey: publicKey,
-  algorithms: ["RSA256"],
+  // Extracts token from 'Authorization: Bearer <token>'
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  // Public key for verification
+  secretOrKey: publicKey,
+  // Algorithm used to sign the JWT
+  algorithms: ["RS256"],
 };
 
 passport.use(

@@ -1,20 +1,21 @@
-require("dotenv").config();
-const express = require("express");
-const passport = require("passport");
+import dotenv from "dotenv";
+import express from "express";
+import passport from "passport";
 
 // Routers
-const authRouter = require("./routers/authRoutes");
+import { router } from "./routers/authRoutes";
 
-// Initialize express app
+// Initialize
 const app = express();
+dotenv.config();
 
 // Middleware setup
 app.use(express.json);
 
-require("./auth/passport");
+import "./config/passportConfig";
 app.use(passport.initialize());
 
-app.use("/api", authRouter);
+app.use("/api", router);
 
 // Server running
 const PORT = process.env.SERVER_PORT || 5678;
