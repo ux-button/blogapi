@@ -4,32 +4,29 @@ import { prisma } from "../config/prismaConfig";
 
 // Get user by id
 const getUser = async (username) => {
-  return (user = await prisma.user.findUnique({ where: { username } }));
+  return await prisma.user.findUnique({ where: { username } });
 };
 
 // Get private key
-const privateKey = await Bun.file("../keyPair/private.pem");
+const privateKey = await Bun.file("../back/keyPair/private.pem").text();
 
-const loginController = (req, res) => {
+const loginController = async (req, res) => {
   // Get login and password from requiest
-  const { username, password } = req.body();
-
+  const { username, password } = req.body;
   getUser(username)
     .then(async (user) => {
-      await prisma.$disconnect();
-
       // Chech does the user exist
       if (!user) {
         return res.status(400).json({ message: "User not found" });
       }
 
-      // Compare hashed passwords
+      // Find user and validate password
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
         return res.status(400).json({ message: "Incorrect password" });
       }
 
-      // Create token
+      // Generate JWT
       const token = jwt.sign(
         { id: user.id, username: user.username },
         privateKey,
@@ -38,11 +35,12 @@ const loginController = (req, res) => {
           expiresIn: "1h",
         }
       );
-      return res.status(201).json({ token });
+
+      // Send success response
+      res.status(201).json({ token });
     })
     .catch(async (error) => {
-      await prisma.$disconnect();
-      return res.status(400).json({ message: "Something went wrong" }, error);
+      return res.status(400).json({ message: "Something went wrong", error });
     });
 };
 

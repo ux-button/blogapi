@@ -10,7 +10,7 @@ const registerUser = async (username, password) => {
 
 const registrationController = (req, res) => {
   // Get login and password from requiest
-  const { username, password } = req.body();
+  const { username, password } = req.body;
 
   // Hash password
   bcrypt.hash(password, 10, async (error, hashedPassword) => {

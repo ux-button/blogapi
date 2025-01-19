@@ -14,9 +14,10 @@ router.post("/login", loginController);
 // Protected route
 router.get(
   "/profile",
-  passport.authenticate("jwt", { session: false }, (req, res) => {
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
     return res.status(200).json({ message: "Access granted", user: req.user });
-  })
+  }
 );
 
 export { router };

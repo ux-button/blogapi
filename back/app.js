@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import passport from "passport";
+import "./config/passportConfig";
 
 // Routers
 import { router } from "./routers/authRoutes";
@@ -9,11 +10,8 @@ import { router } from "./routers/authRoutes";
 const app = express();
 dotenv.config();
 
-// Middleware setup
-app.use(express.json);
-
-import "./config/passportConfig";
-app.use(passport.initialize());
+app.use(express.json()); // JSON parser
+app.use(passport.initialize()); // Passport setup
 
 app.use("/api", router);
 

@@ -3,8 +3,7 @@ import passport from "passport";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 
 // Get public key from filesystem
-const publicKey = Bun.file("../keyPair/public.pem");
-console.log(publicKey);
+const publicKey = await Bun.file("../back/keyPair/public.pem").text();
 
 // JWT options
 const options = {
